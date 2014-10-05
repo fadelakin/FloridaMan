@@ -3,8 +3,10 @@ package com.fisheradelakin.floridaman;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -41,16 +43,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Button newStoryButton = (Button) findViewById(R.id.showAnotherStoryButton);
-        //final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isNetworkAvailable()) {
                     new JSONParse().execute();
-                    //int color = mColor.getColor();
-                    //layout.setBackgroundColor(color);
-                    //newStoryButton.setTextColor(color);
                 }
             }
         };
@@ -117,13 +115,15 @@ public class MainActivity extends Activity {
                     ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
                             R.layout.list_item,
                             new String[] { TAG_TITLE,TAG_URL}, new int[] {
-                            R.id.title,R.id.desc});
+                            R.id.title, R.id.desc});
                     listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
-                            Toast.makeText(MainActivity.this, "You Clicked at "+newsList.get(+position).get("name"), Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(desc.getText().toString()));
+                            startActivity(i);
                         }
                     });
 
