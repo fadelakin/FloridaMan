@@ -8,10 +8,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,11 +23,20 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends Activity {
+
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
 
     public static final String URL = "http://www.reddit.com/r/floridaman.json";
-    TextView headlineText;
+
+    public static String[] titles = {"1", "2", "3"};
+
+    ListView listView;
+    List<RowItem> rowItems;
+    ArrayList<String> ar = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +45,24 @@ public class MainActivity extends Activity {
 
         final Button newStoryButton = (Button) findViewById(R.id.showAnotherStoryButton);
         final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
+
+       /*  rowItems = new ArrayList<RowItem>();
+        for (int i = 0; i < titles.length; i++) {
+            RowItem item = new RowItem(titles[i]);
+            rowItems.add(item);
+        } */
+
+        listView = (ListView) findViewById(R.id.list);
+        /* CustomListViewAdapter adapter = new CustomListViewAdapter(this,
+                R.layout.list_item, rowItems);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this); */
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                ar );
+
+        listView.setAdapter(arrayAdapter);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -45,6 +76,18 @@ public class MainActivity extends Activity {
             }
         };
         newStoryButton.setOnClickListener(listener);
+
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long id) {
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Item " + (position + 1) + ": " + rowItems.get(position),
+                Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 
     private boolean isNetworkAvailable() {
@@ -83,17 +126,6 @@ public class MainActivity extends Activity {
         protected void onPostExecute(JSONObject json) {
             pDialog.dismiss();
             try {
-                // jokes = json.getJSONArray(TAG_JOKE);
-                // getting json from url
-               /* JSONObject hello = new JSONObject("result");
-                JSONObject c = hello.getJSONObject("data");
-                children = c.getJSONArray(TAG_CHILDREN);
-                for(int i = 0; i < children.length(); i++){
-                    JSONObject j = children.getJSONObject(i).getJSONObject("data");
-
-                    String title = j.getString(TITLE);
-                    headlineText.setText(title.replace("&quot;", "\"").replace("&amp;", "&").replace("&#39;", "\'"));
-                } */
 
                 JSONObject response = json.getJSONObject("data");
                 System.out.println(response);
@@ -103,24 +135,14 @@ public class MainActivity extends Activity {
                 for(int i=0; i<hotTopics.length(); i++) {
                     JSONObject topic = hotTopics.getJSONObject(i).getJSONObject("data");
                     String title = topic.getString("title");
+                    String url = topic.getString("url");
+
 
                     System.out.println(title);
+                    System.out.println(url);
+                    ar.add(title);
+                    System.out.println(ar);
                 }
-
-
-                /* children = c.getJSONArray(TAG_CHILDREN);
-
-                JSONObject random = children.getJSONObject("title");
-
-                String title = random.getString(TITLE);
-
-                headlineText.setText(title); */
-
-                // store json item
-                //String joke = c.getString("joke");
-                // set json data in textview
-                //headlineText = (TextView) findViewById(R.id.headlineText);
-                //headlineText.setText(joke.replace("&quot;", "\"").replace("&amp;", "&").replace("&#39;", "\'"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

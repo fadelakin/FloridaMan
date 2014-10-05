@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="default_headline">Hello</string>
-    <string name="another_headline">Next Story</string>
+    <string name="another_headline">Get Stories</string>
     <string name="open_story">Read Story</string>
 
 </resources>

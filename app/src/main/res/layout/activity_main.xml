@@ -10,17 +10,7 @@
     android:background="#f1c40f"
     android:id="@+id/layout">
 
-    <TextView
-        android:text="@string/default_headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#ffffffff"
-        android:textSize="@dimen/text_size"
-        android:id="@+id/headlineText"
-        android:layout_marginTop="104dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+
 
     <Button
         android:layout_width="match_parent"
@@ -29,20 +19,17 @@
         android:id="@+id/showAnotherStoryButton"
         android:background="#ffffffff"
         android:textColor="#ff51b46d"
-        android:layout_marginBottom="135dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Button
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/open_story"
-        android:id="@+id/openStoryButton"
-        android:background="#ffffffff"
-        android:textColor="#ff51b46d"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/list"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/showAnotherStoryButton" />
 
 </RelativeLayout>
