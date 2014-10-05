@@ -7,17 +7,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +19,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class MainActivity extends Activity {
@@ -39,7 +31,6 @@ public class MainActivity extends Activity {
     private static final String TAG_URL = "url";
 
     ListView listView;
-    List<RowItem> rowItems;
     ArrayList<HashMap<String,String>> newsList = new ArrayList<HashMap<String, String>>();
     TextView title;
     TextView desc;
@@ -90,7 +81,7 @@ public class MainActivity extends Activity {
             title = (TextView)findViewById(R.id.title);
             desc = (TextView)findViewById(R.id.desc);
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Getting News Story ...");
+            pDialog.setMessage("Getting New Stories ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
