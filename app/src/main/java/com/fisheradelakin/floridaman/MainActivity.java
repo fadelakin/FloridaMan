@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class MainActivity extends Activity {
 
-    public static final String URL = "http://www.reddit.com/r/floridaman.json?limit=100";
+    public static final String URL = "http://www.reddit.com/r/floridaman.json?limit=500";
 
     private static final String TAG_TITLE = "title";
     private static final String TAG_URL = "url";
