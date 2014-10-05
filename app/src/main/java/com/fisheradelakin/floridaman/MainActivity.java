@@ -23,13 +23,7 @@ import org.json.JSONObject;
 public class MainActivity extends Activity {
 
     public static final String URL = "http://www.reddit.com/r/floridaman.json";
-    private static final String TITLE = "title";
-    private static final String TAG_CHILDREN = "children";
     TextView headlineText;
-
-    JSONArray children;
-
-    static String result = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,21 +95,16 @@ public class MainActivity extends Activity {
                     headlineText.setText(title.replace("&quot;", "\"").replace("&amp;", "&").replace("&#39;", "\'"));
                 } */
 
-                JSONObject response = new JSONObject();
+                JSONObject response = json.getJSONObject("data");
                 System.out.println(response);
-                JSONObject data = response.getJSONObject("data");
-                JSONArray hotTopics = data.getJSONArray("children");
+                //JSONObject data = response.getJSONObject("data");
+                JSONArray hotTopics = response.getJSONArray("children");
 
                 for(int i=0; i<hotTopics.length(); i++) {
                     JSONObject topic = hotTopics.getJSONObject(i).getJSONObject("data");
-
-                    String author = topic.getString("author");
-                    String imageUrl = topic.getString("thumbnail");
-                    String postTime = topic.getString("created_utc");
-                    String rScore = topic.getString("score");
                     String title = topic.getString("title");
 
-                    headlineText.setText(title);
+                    System.out.println(title);
                 }
 
 
