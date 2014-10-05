@@ -15,8 +15,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,18 +27,22 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
+public class MainActivity extends Activity {
 
     public static final String URL = "http://www.reddit.com/r/floridaman.json";
 
-    public static String[] titles = {"1", "2", "3"};
+    private static final String TAG_TITLE = "title";
+    private static final String TAG_URL = "url";
 
     ListView listView;
     List<RowItem> rowItems;
-    ArrayList<String> ar = new ArrayList<String>();
+    ArrayList<HashMap<String,String>> newsList = new ArrayList<HashMap<String, String>>();
+    TextView title;
+    TextView desc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +50,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         setContentView(R.layout.activity_main);
 
         final Button newStoryButton = (Button) findViewById(R.id.showAnotherStoryButton);
-        final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
-
-       /*  rowItems = new ArrayList<RowItem>();
-        for (int i = 0; i < titles.length; i++) {
-            RowItem item = new RowItem(titles[i]);
-            rowItems.add(item);
-        } */
-
-        listView = (ListView) findViewById(R.id.list);
-        /* CustomListViewAdapter adapter = new CustomListViewAdapter(this,
-                R.layout.list_item, rowItems);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this); */
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                ar );
-
-        listView.setAdapter(arrayAdapter);
+        //final RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -78,16 +66,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         newStoryButton.setOnClickListener(listener);
 
 
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Item " + (position + 1) + ": " + rowItems.get(position),
-                Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
     }
 
     private boolean isNetworkAvailable() {
@@ -109,6 +87,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            title = (TextView)findViewById(R.id.title);
+            desc = (TextView)findViewById(R.id.desc);
             pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Getting News Story ...");
             pDialog.setIndeterminate(false);
@@ -134,14 +114,30 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
                 for(int i=0; i<hotTopics.length(); i++) {
                     JSONObject topic = hotTopics.getJSONObject(i).getJSONObject("data");
-                    String title = topic.getString("title");
-                    String url = topic.getString("url");
+                    String title = topic.getString(TAG_TITLE);
+                    String url = topic.getString(TAG_URL);
 
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put(TAG_TITLE, title);
+                    map.put(TAG_URL, url);
+                    newsList.add(map);
+
+                    listView=(ListView)findViewById(R.id.list);
+                    ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
+                            R.layout.list_item,
+                            new String[] { TAG_TITLE,TAG_URL}, new int[] {
+                            R.id.title,R.id.desc});
+                    listView.setAdapter(adapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            Toast.makeText(MainActivity.this, "You Clicked at "+newsList.get(+position).get("name"), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                     System.out.println(title);
                     System.out.println(url);
-                    ar.add(title);
-                    System.out.println(ar);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
