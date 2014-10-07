@@ -16,8 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:paddingLeft="0sp"
         android:textColor="#80ffffff"
         android:textSize="15sp"
-        android:autoLink="web"/>
+        android:autoLink="web"
+        android:visibility="invisible"/>
 </RelativeLayout>
