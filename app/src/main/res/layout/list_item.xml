@@ -18,6 +18,5 @@
         android:layout_below="@+id/title"
         android:textColor="#80ffffff"
         android:textSize="15sp"
-        android:autoLink="web"
-        android:visibility="invisible"/>
+        android:autoLink="web"/>
 </RelativeLayout>
