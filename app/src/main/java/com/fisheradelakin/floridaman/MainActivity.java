@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         if(networkInfo != null && networkInfo.isConnected()) {
             isAvailable = true;
         } else {
-            Toast.makeText(this, "No network. Sorry, jokes are not available.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No network. Sorry, stories are not available.", Toast.LENGTH_SHORT).show();
         }
 
         return isAvailable;
@@ -112,17 +112,23 @@ public class MainActivity extends Activity {
                     newsList.add(map);
 
                     listView=(ListView)findViewById(R.id.list);
-                    ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
+                    /* ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
                             R.layout.list_item,
                             new String[] { TAG_TITLE,TAG_URL}, new int[] {
-                            R.id.title, R.id.desc});
+                            R.id.title, R.id.desc}); */
+                    ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
+                            R.layout.list_item,
+                            new String[] { TAG_TITLE, TAG_URL}, new int[] {
+                            R.id.title});
                     listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
+                            String url = TAG_URL;
                             Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(desc.getText().toString()));
+                            // i.setData(Uri.parse(desc.getText().toString()));
+                            i.setData(Uri.parse(url));
                             startActivity(i);
                         }
                     });
