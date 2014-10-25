@@ -98,7 +98,6 @@ public class MainActivity extends Activity {
 
                 JSONObject response = json.getJSONObject("data");
                 System.out.println(response);
-                //JSONObject data = response.getJSONObject("data");
                 JSONArray hotTopics = response.getJSONArray("children");
 
                 for(int i=0; i<hotTopics.length(); i++) {
