@@ -112,14 +112,10 @@ public class MainActivity extends Activity {
                     newsList.add(map);
 
                     listView=(ListView)findViewById(R.id.list);
-                    /* ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
-                            R.layout.list_item,
-                            new String[] { TAG_TITLE,TAG_URL}, new int[] {
-                            R.id.title, R.id.desc}); */
                     ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
                             R.layout.list_item,
-                            new String[] { TAG_TITLE, TAG_URL}, new int[] {
-                            R.id.title});
+                            new String[] { TAG_TITLE,TAG_URL}, new int[] {
+                            R.id.title, R.id.desc});
                     listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
