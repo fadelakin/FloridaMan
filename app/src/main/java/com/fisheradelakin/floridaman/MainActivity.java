@@ -121,10 +121,8 @@ public class MainActivity extends Activity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
-                            String url = TAG_URL;
                             Intent i = new Intent(Intent.ACTION_VIEW);
-                            // i.setData(Uri.parse(desc.getText().toString()));
-                            i.setData(Uri.parse(url));
+                            i.setData(Uri.parse(desc.getText().toString()));
                             startActivity(i);
                         }
                     });
