@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Fisher on 10/5/14.
+ *
  */
 public class JSONParser {
 
@@ -29,8 +30,8 @@ public class JSONParser {
         // Make request
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpPost = new HttpGet(url);
-            HttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
             is = httpEntity.getContent();
         } catch(UnsupportedEncodingException e) {
