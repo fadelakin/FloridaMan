@@ -32,10 +32,10 @@ public class MainActivity extends Activity {
     private static final String TAG_TITLE = "title";
     private static final String TAG_URL = "url";
 
-    ListView listView;
-    ArrayList<HashMap<String,String>> newsList = new ArrayList<HashMap<String, String>>();
-    TextView title;
-    TextView desc;
+    ListView mListView;
+    ArrayList<HashMap<String,String>> mNewsList = new ArrayList<HashMap<String, String>>();
+    TextView mTitle;
+    TextView mDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,8 @@ public class MainActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            title = (TextView)findViewById(R.id.title);
-            desc = (TextView)findViewById(R.id.desc);
+            mTitle = (TextView)findViewById(R.id.title);
+            mDesc = (TextView)findViewById(R.id.desc);
             pDialog = new ProgressDialog(MainActivity.this);
             pDialog.setMessage("Getting New Stories ...");
             pDialog.setIndeterminate(false);
@@ -108,20 +108,20 @@ public class MainActivity extends Activity {
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put(TAG_TITLE, title);
                     map.put(TAG_URL, url);
-                    newsList.add(map);
+                    mNewsList.add(map);
 
-                    listView=(ListView)findViewById(R.id.list);
-                    ListAdapter adapter = new SimpleAdapter(MainActivity.this, newsList,
+                    mListView =(ListView)findViewById(R.id.list);
+                    ListAdapter adapter = new SimpleAdapter(MainActivity.this, mNewsList,
                             R.layout.list_item,
                             new String[] { TAG_TITLE,TAG_URL}, new int[] {
                             R.id.title, R.id.desc});
-                    listView.setAdapter(adapter);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    mListView.setAdapter(adapter);
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
                             Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(desc.getText().toString()));
+                            i.setData(Uri.parse(mDesc.getText().toString()));
                             startActivity(i);
                         }
                     });
